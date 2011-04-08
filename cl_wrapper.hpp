@@ -196,14 +196,14 @@ public:
   /** \brief new wrapper object copies other wrapper's reference */
   cl_wrapper(const cl_wrapper &w) 
       : ref_(w.ref_) {
-    if(ref_) detail::cl_wrapper_detail<T>::ref(ref_);
+    upref_();
   }
-  /** \brief new wrapper object at t; increments refcount */
+  /** \brief new wrapper object at t; don't increment refcount */
   cl_wrapper(T t)
       : ref_(t) {
   }
   virtual ~cl_wrapper() {
-    if(ref_) detail::cl_wrapper_detail<T>::unref(ref_);
+    downref_();
   }
 
   /** \brief reference access */
@@ -217,9 +217,9 @@ public:
   /** \brief modify reference */
   void reset(T t) {
     if(ref_ == t) return;
-    if(ref_) detail::cl_wrapper_detail<T>::unref(ref_);
+    downref_();
     ref_ = t;
-    if(ref_) detail::cl_wrapper_detail<T>::ref(ref_);
+    upref_();
   }
 
   /** \brief test equality by reference */
@@ -235,9 +235,11 @@ public:
     reset(r.ref_);
     return *this;
   }
-  /** \brief behaves like reset() */
+  /** \brief behaves like reset() with no automatic reference increment */
   cl_wrapper operator=(const T &t) {
-    reset(t);
+    if(ref_ == t) return *this;
+    downref_();
+    ref_ = t;
     return *this;
   }
 
@@ -251,6 +253,14 @@ public:
   }
 
 protected:
+  void upref_() {
+    if(ref_) detail::cl_wrapper_detail<T>::ref(ref_);
+  }
+
+  void downref_() {
+    if(ref_) detail::cl_wrapper_detail<T>::unref(ref_);
+  }
+
   T ref_;
 };
 
@@ -455,19 +465,44 @@ template<int UNUSED> std::vector<platform_<UNUSED> >
 typedef platform_<0> platform;
 
 /** \brief OpenCL context wrapper */
-class context : public cl_wrapper<cl_context> {
+template<int UNUSED>
+class context_ : public cl_wrapper<cl_context> {
 public:
   /** \brief standard ctors; see cl_wrapper<> */
-  context()
+  context_()
       : cl_wrapper<cl_context>() { }
   /** \brief standard ctors; see cl_wrapper<> */
-  context(const context &cl) 
+  context_(const context_ &cl) 
       : cl_wrapper<cl_context>(cl) { }
   /** \brief standard ctors; see cl_wrapper<> */
-  context(cl_context c)
+  context_(cl_context c)
       : cl_wrapper<cl_context>(c) { }
-  virtual ~context() { }
+  /** \brief create a new context */
+  template<typename T>
+  context_(platform platform, int num_devices, const T &devices)
+      : cl_wrapper<cl_context>() {
+    cl_int err;
+    cl_context c;
+    cl_context_properties props[] = {
+      CL_CONTEXT_PLATFORM, 
+      (cl_context_properties)platform.id(), 
+      (cl_context_properties)0 };
+    c = clCreateContext(props, num_devices, 
+        reinterpret_cast<const cl_device_id*>(&devices[0]),
+        NULL, NULL, &err);
+    CHECK_CL_ERROR(err);
+    ref_ = c;
+  }
+  virtual ~context_() { }
+
+#define CONTEXT_PROPERTY(name, cl_name, type) \
+  type name() const { \
+    return detail::context_property_functor<context_<0>, type>()(*this,\
+        cl_name); \
+  }
+#undef CONTEXT_PROPERTY
 };
+typedef context_<0> context;
 
 #undef CHECK_CL_ERROR
 
