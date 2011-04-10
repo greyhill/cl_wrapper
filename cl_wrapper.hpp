@@ -13,53 +13,100 @@ namespace cl {
 
 static const char* cl_error_string(cl_int err) {
   switch(err) {
-    case CL_SUCCESS:                          return "Success!";
-    case CL_DEVICE_NOT_FOUND:                 return "Device not found.";
-    case CL_DEVICE_NOT_AVAILABLE:             return "Device not available";
-    case CL_COMPILER_NOT_AVAILABLE:           return "Compiler not available";
-    case CL_MEM_OBJECT_ALLOCATION_FAILURE:    return "Memory object allocation failure";
-    case CL_OUT_OF_RESOURCES:                 return "Out of resources";
-    case CL_OUT_OF_HOST_MEMORY:               return "Out of host memory";
-    case CL_PROFILING_INFO_NOT_AVAILABLE:     return "Profiling information not available";
-    case CL_MEM_COPY_OVERLAP:                 return "Memory copy overlap";
-    case CL_IMAGE_FORMAT_MISMATCH:            return "Image format mismatch";
-    case CL_IMAGE_FORMAT_NOT_SUPPORTED:       return "Image format not supported";
-    case CL_BUILD_PROGRAM_FAILURE:            return "Program build failure";
-    case CL_MAP_FAILURE:                      return "Map failure";
-    case CL_INVALID_VALUE:                    return "Invalid value";
-    case CL_INVALID_DEVICE_TYPE:              return "Invalid device type";
-    case CL_INVALID_PLATFORM:                 return "Invalid platform";
-    case CL_INVALID_DEVICE:                   return "Invalid device";
-    case CL_INVALID_CONTEXT:                  return "Invalid context";
-    case CL_INVALID_QUEUE_PROPERTIES:         return "Invalid queue properties";
-    case CL_INVALID_COMMAND_QUEUE:            return "Invalid command queue";
-    case CL_INVALID_HOST_PTR:                 return "Invalid host pointer";
-    case CL_INVALID_MEM_OBJECT:               return "Invalid memory object";
-    case CL_INVALID_IMAGE_FORMAT_DESCRIPTOR:  return "Invalid image format descriptor";
-    case CL_INVALID_IMAGE_SIZE:               return "Invalid image size";
-    case CL_INVALID_SAMPLER:                  return "Invalid sampler";
-    case CL_INVALID_BINARY:                   return "Invalid binary";
-    case CL_INVALID_BUILD_OPTIONS:            return "Invalid build options";
-    case CL_INVALID_PROGRAM:                  return "Invalid program";
-    case CL_INVALID_PROGRAM_EXECUTABLE:       return "Invalid program executable";
-    case CL_INVALID_KERNEL_NAME:              return "Invalid kernel name";
-    case CL_INVALID_KERNEL_DEFINITION:        return "Invalid kernel definition";
-    case CL_INVALID_KERNEL:                   return "Invalid kernel";
-    case CL_INVALID_ARG_INDEX:                return "Invalid argument index";
-    case CL_INVALID_ARG_VALUE:                return "Invalid argument value";
-    case CL_INVALID_ARG_SIZE:                 return "Invalid argument size";
-    case CL_INVALID_KERNEL_ARGS:              return "Invalid kernel arguments";
-    case CL_INVALID_WORK_DIMENSION:           return "Invalid work dimension";
-    case CL_INVALID_WORK_GROUP_SIZE:          return "Invalid work group size";
-    case CL_INVALID_WORK_ITEM_SIZE:           return "Invalid work item size";
-    case CL_INVALID_GLOBAL_OFFSET:            return "Invalid global offset";
-    case CL_INVALID_EVENT_WAIT_LIST:          return "Invalid event wait list";
-    case CL_INVALID_EVENT:                    return "Invalid event";
-    case CL_INVALID_OPERATION:                return "Invalid operation";
-    case CL_INVALID_GL_OBJECT:                return "Invalid OpenGL object";
-    case CL_INVALID_BUFFER_SIZE:              return "Invalid buffer size";
-    case CL_INVALID_MIP_LEVEL:                return "Invalid mip-map level";
-    default:                                  return "Unknown";
+    case CL_SUCCESS:                          
+      return "Success!";
+    case CL_DEVICE_NOT_FOUND:                 
+      return "Device not found.";
+    case CL_DEVICE_NOT_AVAILABLE:             
+      return "Device not available";
+    case CL_COMPILER_NOT_AVAILABLE:           
+      return "Compiler not available";
+    case CL_MEM_OBJECT_ALLOCATION_FAILURE:    
+      return "Memory object allocation failure";
+    case CL_OUT_OF_RESOURCES:                 
+      return "Out of resources";
+    case CL_OUT_OF_HOST_MEMORY:               
+      return "Out of host memory";
+    case CL_PROFILING_INFO_NOT_AVAILABLE:     
+      return "Profiling information not available";
+    case CL_MEM_COPY_OVERLAP:                 
+      return "Memory copy overlap";
+    case CL_IMAGE_FORMAT_MISMATCH:            
+      return "Image format mismatch";
+    case CL_IMAGE_FORMAT_NOT_SUPPORTED:       
+      return "Image format not supported";
+    case CL_BUILD_PROGRAM_FAILURE:            
+      return "Program build failure";
+    case CL_MAP_FAILURE:                      
+      return "Map failure";
+    case CL_INVALID_VALUE:                    
+      return "Invalid value";
+    case CL_INVALID_DEVICE_TYPE:              
+      return "Invalid device type";
+    case CL_INVALID_PLATFORM:                 
+      return "Invalid platform";
+    case CL_INVALID_DEVICE:                   
+      return "Invalid device";
+    case CL_INVALID_CONTEXT:                  
+      return "Invalid context";
+    case CL_INVALID_QUEUE_PROPERTIES:         
+      return "Invalid queue properties";
+    case CL_INVALID_COMMAND_QUEUE:            
+      return "Invalid command queue";
+    case CL_INVALID_HOST_PTR:                 
+      return "Invalid host pointer";
+    case CL_INVALID_MEM_OBJECT:               
+      return "Invalid memory object";
+    case CL_INVALID_IMAGE_FORMAT_DESCRIPTOR:  
+      return "Invalid image format descriptor";
+    case CL_INVALID_IMAGE_SIZE:               
+      return "Invalid image size";
+    case CL_INVALID_SAMPLER:                  
+      return "Invalid sampler";
+    case CL_INVALID_BINARY:                   
+      return "Invalid binary";
+    case CL_INVALID_BUILD_OPTIONS:            
+      return "Invalid build options";
+    case CL_INVALID_PROGRAM:                  
+      return "Invalid program";
+    case CL_INVALID_PROGRAM_EXECUTABLE:       
+      return "Invalid program executable";
+    case CL_INVALID_KERNEL_NAME:              
+      return "Invalid kernel name";
+    case CL_INVALID_KERNEL_DEFINITION:        
+      return "Invalid kernel definition";
+    case CL_INVALID_KERNEL:                   
+      return "Invalid kernel";
+    case CL_INVALID_ARG_INDEX:                
+      return "Invalid argument index";
+    case CL_INVALID_ARG_VALUE:                
+      return "Invalid argument value";
+    case CL_INVALID_ARG_SIZE:                 
+      return "Invalid argument size";
+    case CL_INVALID_KERNEL_ARGS:              
+      return "Invalid kernel arguments";
+    case CL_INVALID_WORK_DIMENSION:           
+      return "Invalid work dimension";
+    case CL_INVALID_WORK_GROUP_SIZE:          
+      return "Invalid work group size";
+    case CL_INVALID_WORK_ITEM_SIZE:           
+      return "Invalid work item size";
+    case CL_INVALID_GLOBAL_OFFSET:            
+      return "Invalid global offset";
+    case CL_INVALID_EVENT_WAIT_LIST:          
+      return "Invalid event wait list";
+    case CL_INVALID_EVENT:                    
+      return "Invalid event";
+    case CL_INVALID_OPERATION:                
+      return "Invalid operation";
+    case CL_INVALID_GL_OBJECT:                
+      return "Invalid OpenGL object";
+    case CL_INVALID_BUFFER_SIZE:              
+      return "Invalid buffer size";
+    case CL_INVALID_MIP_LEVEL:                
+      return "Invalid mip-map level";
+    default:                                  
+      return "Unknown";
   }
 }
 
@@ -109,6 +156,16 @@ template<>
 struct cl_wrapper_detail<cl_context> {
   static inline void ref(cl_context context) { clRetainContext(context); }
   static inline void unref(cl_context context) { clReleaseContext(context); }
+};
+
+template<>
+struct cl_wrapper_detail<cl_command_queue> {
+  static inline void ref(cl_command_queue queue) {
+    clRetainCommandQueue(queue);
+  }
+  static inline void unref(cl_command_queue queue) {
+    clReleaseCommandQueue(queue);
+  }
 };
 
 template<typename PT, typename CPPTYPE>
@@ -177,6 +234,18 @@ struct device_property_functor<DT, std::vector<size_t> > {
     std::vector<size_t> to_return(size / sizeof(size_t));
     err = clGetDeviceInfo(device.id(), prop_name, size, &to_return[0],
         NULL);
+    CHECK_CL_ERROR(err);
+    return to_return;
+  }
+};
+
+template<typename CT, typename CPPTYPE>
+struct context_property_functor {
+  CPPTYPE operator()(const CT &context, cl_uint prop_name) const {
+    cl_int err;
+    CPPTYPE to_return;
+    err = clGetContextInfo(context.id(), prop_name, sizeof(to_return),
+        &to_return, NULL);
     CHECK_CL_ERROR(err);
     return to_return;
   }
@@ -264,11 +333,6 @@ protected:
   T ref_;
 };
 
-typedef cl_wrapper<cl_mem> mem;
-typedef cl_wrapper<cl_kernel> kernel;
-typedef cl_wrapper<cl_program> program;
-typedef cl_wrapper<cl_event> event;
-
 /** \brief opencl device management class.  get a list of all the
  * devices available for a platform using the platform.devices() member
  * function. */
@@ -278,7 +342,7 @@ public:
   device_()
       : id_(NULL) { }
   device_(cl_device_id id)
-      : id_(NULL) { }
+      : id_(id) { }
   device_(const device_ &d)
       : id_(d.id_) { }
   ~device_() { }
@@ -478,8 +542,7 @@ public:
   context_(cl_context c)
       : cl_wrapper<cl_context>(c) { }
   /** \brief create a new context */
-  template<typename T>
-  context_(platform platform, int num_devices, const T &devices)
+  context_(platform platform, int num_devices, const device *devices)
       : cl_wrapper<cl_context>() {
     cl_int err;
     cl_context c;
@@ -500,9 +563,296 @@ public:
     return detail::context_property_functor<context_<0>, type>()(*this,\
         cl_name); \
   }
+  // CL_CONTEXT_DEVICE
+  // CL_CONTEXT_PROPERTIES
+  CONTEXT_PROPERTY(reference_count, CL_CONTEXT_REFERENCE_COUNT,
+      cl_uint);
 #undef CONTEXT_PROPERTY
 };
 typedef context_<0> context;
+
+/** \brief OpenCL buffer wrapper */
+template<int UNUSED>
+class buffer_ : public cl_wrapper<cl_mem> {
+public:
+  /** \brief standard ctors; see cl_wrapper<> */
+  buffer_() 
+      : cl_wrapper<cl_mem>() { }
+  /** \brief standard ctors; see cl_wrapper<> */
+  buffer_(const buffer_ &b)
+      : cl_wrapper<cl_mem>(b) { }
+  /** \brief standard ctors; see cl_wrapper<> */
+  buffer_(cl_mem m)
+      : cl_wrapper<cl_mem>(m) { }
+  /** \brief create a new opencl buffer */
+  buffer_(const context &c, cl_mem_flags flags, size_t size, void
+      *host_ptr = NULL) 
+      : cl_wrapper<cl_mem>() {
+    cl_int err;
+    cl_mem m = NULL;
+    m = clCreateBuffer(c.id(), flags, size, host_ptr, &err);
+    CHECK_CL_ERROR(err);
+    ref_ = m;
+  }
+  virtual ~buffer_() { }
+};
+typedef buffer_<0> buffer;
+
+template<int UNUSED>
+class image2d_ : public cl_wrapper<cl_mem> {
+public:
+  /** \brief standard ctors; see cl_wrapper<> */
+  image2d_()
+      : cl_wrapper<cl_mem>() { }
+  /** \brief standard ctors; see cl_wrapper<> */
+  image2d_(const image2d_ &i)
+      : cl_wrapper<cl_mem>(i) { }
+  /** \brief standard ctors; see cl_wrapper<> */
+  image2d_(cl_mem m)
+      : cl_wrapper<cl_mem>(m) { }
+  /** \brief create a new image2d object */
+  image2d_(const context &context, cl_mem_flags flags,
+      cl_channel_order channel_order,
+      cl_channel_type channel_type,
+      size_t width,
+      size_t height,
+      void *user_data = NULL,
+      size_t pitch = 0)
+      : cl_wrapper<cl_mem>() {
+    cl_int err;
+    cl_image_format format = { channel_order, channel_type };
+    cl_mem i = clCreateImage2D(context.id(),
+        flags,
+        &format,
+        width,
+        height,
+        pitch,
+        user_data,
+        &err);
+    CHECK_CL_ERROR(err);
+    ref_ = i;
+  }
+  virtual ~image2d_() { }
+};
+typedef image2d_<0> image2d;
+
+template<int UNUSED>
+class image3d_ : public cl_wrapper<cl_mem> {
+public:
+  /** \brief standard ctors; see cl_wrapper<> */
+  image3d_() : cl_wrapper<cl_mem>() { }
+  /** \brief standard ctors; see cl_wrapper<> */
+  image3d_(const image3d_ &i) : cl_wrapper<cl_mem>(i) { }
+  /** \brief standard ctors; see cl_wrapper<> */
+  image3d_(cl_mem m) : cl_wrapper<cl_mem>(m) { }
+  /** \brief create a new 3d image */
+  image3d_(const context &context, cl_mem_flags flags,
+      cl_channel_order channel_order,
+      cl_channel_type channel_type,
+      size_t width,
+      size_t height,
+      size_t depth,
+      void *user_data = NULL,
+      size_t row_pitch = 0,
+      size_t slice_pitch = 0)
+      : cl_wrapper<cl_mem>() {
+    cl_int err;
+    cl_image_format format = { channel_order, channel_type };
+    cl_mem i = clCreateImage3D(context.id(),
+        flags,
+        &format,
+        width, height, depth,
+        row_pitch, slice_pitch,
+        user_data, &err);
+    CHECK_CL_ERROR(err);
+    ref_ = i;
+  }
+  virtual ~image3d_() { }
+};
+typedef image3d_<0> image3d;
+
+template<int UNUSED>
+class kernel_ : public cl_wrapper<cl_kernel> {
+public:
+  /** \brief standard ctors; see cl_wrapper<> */
+  kernel_()
+      : cl_wrapper<cl_kernel>() { }
+  /** \brief standard ctors; see cl_wrapper<> */
+  kernel_(const kernel_ &k)
+      : cl_wrapper<cl_kernel>(k) { }
+  /** \brief standard ctors; see cl_wrapper<> */
+  kernel_(cl_kernel k)
+      : cl_wrapper<cl_kernel>(k) { }
+  virtual ~kernel_() { }
+
+  template<typename T>
+  kernel_& set_arg(cl_uint index, const T &value) {
+    cl_int err;
+    err = clSetKernelArg(ref_, index, sizeof(T), &value);
+    CHECK_CL_ERROR(err);
+    return *this;
+  }
+};
+typedef kernel_<0> kernel;
+
+template<int UNUSED>
+class program_ : public cl_wrapper<cl_program> {
+public:
+  /** \brief standard ctors; see cl_wrapper<> */
+  program_() : cl_wrapper<cl_program>() { } 
+  /** \brief standard ctors; see cl_wrapper<> */
+  program_(const program_ &p) : cl_wrapper<cl_program>(p) { }
+  /** \brief standard ctors; see cl_wrapper<> */
+  program_(cl_program p) : cl_wrapper<cl_program>(p) { }
+  /** \brief create program from source code */
+  program_(const context &ctx, const std::string &source)
+      : cl_wrapper<cl_program>() {
+    cl_int err;
+    const char *src_ptr = source.c_str();
+    cl_program p = clCreateProgramWithSource(ctx.id(),
+        1, &src_ptr, NULL, &err);
+    CHECK_CL_ERROR(err);
+    ref_ = p;
+  }
+  virtual ~program_() { }
+
+  /** \brief compile this program for all devices associated with this
+   * program's context */
+  void build(const std::string &opts = "") {
+    cl_int err;
+    err = clBuildProgram(ref_, 0, NULL, opts.c_str(), NULL, NULL);
+    CHECK_CL_ERROR(err);
+  }
+
+  /** \brief returns the build log generated by compiling this program
+   * */
+  std::string build_log(const device &d) const {
+    cl_int err;
+    size_t log_size;
+    err = clGetProgramBuildInfo(ref_, d.id(), CL_PROGRAM_BUILD_LOG, 0,
+        NULL, &log_size);
+    CHECK_CL_ERROR(err);
+    std::string to_return;
+    to_return.resize(log_size);
+    err = clGetProgramBuildInfo(ref_, d.id(), CL_PROGRAM_BUILD_LOG,
+        log_size, &to_return[0], NULL);
+    CHECK_CL_ERROR(err);
+    return to_return;
+  }
+
+  /** \brief returns a reference to a kernel contained in this program
+   * */
+  kernel get_kernel(const std::string &kname) const {
+    cl_int err;
+    cl_kernel k = clCreateKernel(ref_, kname.c_str(), &err);
+    CHECK_CL_ERROR(err);
+    kernel ker(k);
+    return ker;
+  }
+};
+typedef program_<0> program;
+
+template<int UNUSED>
+class event_ : public cl_wrapper<cl_event> {
+public:
+  /** \brief standard ctors; see cl_wrapper<> */
+  event_() : cl_wrapper<cl_event>() { }
+  /** \brief standard ctors; see cl_wrapper<> */
+  event_(const event_ &e) : cl_wrapper<cl_event>(e) { }
+  /** \brief standard ctors; see cl_wrapper<> */
+  event_(cl_event e) : cl_wrapper<cl_event>(e) { }
+  virtual ~event_() { }
+
+  void wait() {
+    cl_int err;
+    err = clWaitForEvents(1, &ref_);
+    CHECK_CL_ERROR(err);
+  }
+};
+typedef event_<0> event;
+
+template<int N>
+void wait(cl_uint num_events, event_<N> *events) {
+  cl_int err;
+  err = clWaitForEvents(num_events, 
+      reinterpret_cast<cl_event*>(events));
+  CHECK_CL_ERROR(err);
+}
+
+template<int UNUSED>
+class command_queue_ : public cl_wrapper<cl_command_queue> {
+public:
+  /** \brief standard ctors; see cl_wrapper<> */
+  command_queue_() : cl_wrapper<cl_command_queue>() { }
+  /** \brief standard ctors; see cl_wrapper<> */
+  command_queue_(const command_queue_ &q)
+      : cl_wrapper<cl_command_queue>(q) { }
+  /** \brief standard ctors; see cl_wrapper<> */
+  command_queue_(cl_command_queue q)
+      : cl_wrapper<cl_command_queue>(q) { }
+  /** \brief create a new command queue */
+  command_queue_(const context &c, const device &d,
+    cl_command_queue_properties properties = 0) 
+      : cl_wrapper<cl_command_queue>() {
+    cl_int err;
+    cl_command_queue q = NULL;
+    q = clCreateCommandQueue(c.id(), d.id(), properties, &err);
+    CHECK_CL_ERROR(err);
+    ref_ = q;
+  }
+  virtual ~command_queue_() { } 
+
+  event read_buffer(const buffer &src, size_t offset, size_t size, void
+      *dest, cl_uint num_events = 0, event *events = NULL, 
+      bool blocking = false) {
+    cl_int err;
+    event to_return;
+    err = clEnqueueReadBuffer(ref_, src.id(),
+        blocking ? CL_TRUE : CL_FALSE,
+        offset,
+        size,
+        dest,
+        num_events,
+        reinterpret_cast<cl_event*>(events),
+        reinterpret_cast<cl_event*>(&to_return));
+    CHECK_CL_ERROR(err);
+    return to_return;
+  }
+
+  event write_buffer(const buffer &dst, size_t offset, size_t size, 
+      void *src, cl_uint num_events = 0, event *events = NULL, 
+      bool blocking = false) {
+    cl_int err;
+    event to_return;
+    err = clEnqueueWriteBuffer(ref_, dst.id(),
+        blocking ? CL_TRUE : CL_FALSE,
+        offset,
+        size,
+        src,
+        num_events,
+        reinterpret_cast<cl_event*>(events),
+        reinterpret_cast<cl_event*>(&to_return));
+    CHECK_CL_ERROR(err);
+    return to_return;
+  }
+
+  event copy_buffer(const buffer &src, const buffer &dst, 
+      size_t src_offset, size_t dst_offset,
+      size_t size, 
+      cl_uint num_events = 0, event *events = NULL) {
+    cl_int err;
+    event to_return;
+    err = clEnqueueCopyBuffer(ref_, src.id(), dst.id(),
+        src_offset, dst_offset, size,
+        num_events, reinterpret_cast<cl_event*>(events),
+        reinterpret_cast<cl_event*>(&to_return));
+    CHECK_CL_ERROR(err);
+    return to_return;
+  }
+
+  // TODO image-related stuff
+};
+typedef command_queue_<0> command_queue;
 
 #undef CHECK_CL_ERROR
 
