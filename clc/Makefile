@@ -1,6 +1,6 @@
 CLROOT=/usr/include/nvidia-current
 CLWRAPPERROOT=../../
-CXX=clang++
+CXX=g++
 CXXFLAGS=-g3 -Wall -Wextra -I${CLROOT} -I${CLWRAPPERROOT}
 
 clc: clc.o

@@ -8,7 +8,7 @@
 #include <vector>
 
 void print_usage(char *progname) { 
-  std::cout << "usage: " << progname << " [-l] | [-p ID] PATH"
+  std::cout << "usage: " << progname << " [-l] | [-p ID] [-o OPTS] PATH"
     << std::endl;
 }
 
@@ -26,7 +26,8 @@ void list_platforms() {
   }
 }
 
-void build_program(const std::string &path, int platform_id) {
+void build_program(const std::string &path, const std::string &opts, 
+    int platform_id) {
   const std::vector<cl::platform> &platforms =
     cl::platform::platforms();
   cl::platform platform = platforms[platform_id];
@@ -44,19 +45,71 @@ void build_program(const std::string &path, int platform_id) {
   cl::context context(platform, devices.size(), &devices[0]);
 
   // FIXME add support for windows paths?
-  // TODO get file path, captilize it
+  const size_t last_slash = path.find_last_of('/');
+  const std::string &filename = path.substr(last_slash+1);
+  const size_t first_dot = filename.find_first_of('.');
+  const std::string &base_name = filename.substr(0, first_dot);
+  std::string base_name_cap = base_name;
+
+  for(unsigned i=0; i < base_name_cap.size(); ++i)
+    base_name_cap[i] = toupper(base_name_cap[i]);
 
   std::ifstream infile(path.c_str());
   std::stringstream build_stream;
   // TODO add preliminary stuff to hpp_stream and cpp_stream
+
   std::stringstream hpp_stream;
+  hpp_stream << "#ifndef _" << base_name_cap << "_SOURCE_HPP_\n";
+  hpp_stream << "#define _" << base_name_cap << "_SOURCE_HPP_\n";
+  hpp_stream << "/* this file is automatically produced by clc */\n";
+  hpp_stream << "extern const char *" << base_name << "_source;\n";
+  hpp_stream << "#endif\n";
+
   std::stringstream cpp_stream;
+  cpp_stream << "#include \"" << filename << ".hpp\"\n";
+  cpp_stream << "const char *" << base_name << "_source = ";
+
   std::string line;
   while(std::getline(infile, line)) {
     build_stream << line << "\n";
+    cpp_stream << "\n  \"";
+    for(unsigned i=0; i<line.size(); ++i) {
+      if(line[i] == '"') {
+        cpp_stream << "\\\"";
+      } else if(line[i] == '\\') {
+        cpp_stream << "\\\\";
+      } else {
+        cpp_stream << line[i];
+      }
+    }
+    cpp_stream << "\"";
   }
+  cpp_stream << ";\n";
   infile.close();
-  std::cout << build_stream.str() << std::endl;
+
+  std::cout << "attempting to compile " << path << "... ";
+  cl::program p(context, build_stream.str());
+  try {
+    p.build(opts);
+    std::cout << "success!" << std::endl;
+
+    const std::string &header_path = path + ".hpp";
+    std::ofstream header(header_path.c_str());
+    header << hpp_stream.str();
+    header.close();
+
+    const std::string &cpp_path = path + ".cpp";
+    std::ofstream cpp(cpp_path.c_str());
+    cpp << cpp_stream.str();
+    cpp.close();
+
+    std::cout << "cpp-ready files written to "
+      << header_path << " and " << cpp_path << "\n";
+  } catch(const cl::cl_error &err) {
+    std::cout << "compilation failed!" << std::endl;
+  }
+  std::cout << "\nbuild log:\n" << p.build_log(platform.devices()[0])
+    << "\n";
 }
 
 int main(int argc, char *argv[]) {
@@ -79,17 +132,29 @@ int main(int argc, char *argv[]) {
   }
 
   int platform_id = 0;
-  if(arguments.front() == "-p") {
-    arguments.pop_front();
-    if(arguments.size() < 2) {
-      std::cout << "not enough arguments provided after -p switch\n";
-      print_usage(argv[0]);
-      return EXIT_FAILURE;
+  std::string opts = "";
+  while(arguments.size() > 1) {
+    if(arguments.front() == "-p") {
+      arguments.pop_front();
+      if(arguments.size() < 1) {
+        std::cout << "-p switch provided with no platform id\n";
+        print_usage(argv[0]);
+        return EXIT_FAILURE;
+      }
+      std::stringstream ss;
+      ss << arguments.front();
+      ss >> platform_id;
+      arguments.pop_front();
+    } else if(arguments.front() == "-o") {
+      arguments.pop_front();
+      if(arguments.size() < 1) {
+        std::cout << "-o switch provided with no options\n";
+        print_usage(argv[0]);
+        return EXIT_FAILURE;
+      }
+      opts = arguments.front();
+      arguments.pop_front();
     }
-    std::stringstream ss;
-    ss << arguments.front();
-    ss >> platform_id;
-    arguments.pop_front();
   }
   if(arguments.size() < 1) {
     std::cout << "no PATH provided\n";
@@ -98,7 +163,7 @@ int main(int argc, char *argv[]) {
   }
 
   try {
-    build_program(arguments.front(), platform_id);
+    build_program(arguments.front(), opts, platform_id);
     return EXIT_SUCCESS;
   } catch(const std::exception &e) {
     std::cout << "caught exception: " << e.what() << std::endl;
