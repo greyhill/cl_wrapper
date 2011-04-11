@@ -136,8 +136,8 @@ struct cl_wrapper_detail<cl_mem> {
 
 template<>
 struct cl_wrapper_detail<cl_kernel> {
-  inline void ref(cl_kernel kernel) { clRetainKernel(kernel); }
-  inline void unref(cl_kernel kernel) { clReleaseKernel(kernel); }
+  static inline void ref(cl_kernel kernel) { clRetainKernel(kernel); }
+  static inline void unref(cl_kernel kernel) { clReleaseKernel(kernel); }
 };
 
 template<>
