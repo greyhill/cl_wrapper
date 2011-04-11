@@ -43,8 +43,12 @@ void build_program(const std::string &path, int platform_id) {
 
   cl::context context(platform, devices.size(), &devices[0]);
 
+  // FIXME add support for windows paths?
+  // TODO get file path, captilize it
+
   std::ifstream infile(path.c_str());
   std::stringstream build_stream;
+  // TODO add preliminary stuff to hpp_stream and cpp_stream
   std::stringstream hpp_stream;
   std::stringstream cpp_stream;
   std::string line;
