@@ -850,6 +850,22 @@ public:
     return to_return;
   }
 
+  event run_kernel(const kernel &k, cl_uint work_dim, 
+      const size_t *global_work_size,
+      const size_t *local_work_size,
+      cl_uint num_events = 0,
+      event *events = NULL) {
+    cl_int err;
+    event to_return;
+    err = clEnqueueNDRangeKernel(ref_, k.id(), work_dim,
+        NULL, global_work_size, local_work_size,
+        num_events,
+        reinterpret_cast<cl_event*>(events),
+        reinterpret_cast<cl_event*>(&to_return));
+    CHECK_CL_ERROR(err);
+    return to_return;
+  }
+
   // TODO image-related stuff
 };
 typedef command_queue_<0> command_queue;
