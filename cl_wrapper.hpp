@@ -271,7 +271,7 @@ public:
   cl_wrapper(T t)
       : ref_(t) {
   }
-  virtual ~cl_wrapper() {
+  ~cl_wrapper() {
     downref_();
   }
 
@@ -503,6 +503,7 @@ public:
       err = clGetPlatformIDs(num_platforms,
           reinterpret_cast<cl_platform_id*>(&platforms_[0]), NULL);
       CHECK_CL_ERROR(err);
+      platforms_built_ = true;
     }
     return platforms_;
   }
@@ -556,7 +557,7 @@ public:
     CHECK_CL_ERROR(err);
     ref_ = c;
   }
-  virtual ~context_() { }
+  ~context_() { }
 
 #define CONTEXT_PROPERTY(name, cl_name, type) \
   type name() const { \
@@ -594,7 +595,7 @@ public:
     CHECK_CL_ERROR(err);
     ref_ = m;
   }
-  virtual ~buffer_() { }
+  ~buffer_() { }
 };
 typedef buffer_<0> buffer;
 
@@ -632,7 +633,7 @@ public:
     CHECK_CL_ERROR(err);
     ref_ = i;
   }
-  virtual ~image2d_() { }
+  ~image2d_() { }
 };
 typedef image2d_<0> image2d;
 
@@ -667,7 +668,7 @@ public:
     CHECK_CL_ERROR(err);
     ref_ = i;
   }
-  virtual ~image3d_() { }
+  ~image3d_() { }
 };
 typedef image3d_<0> image3d;
 
@@ -683,7 +684,7 @@ public:
   /** \brief standard ctors; see cl_wrapper<> */
   kernel_(cl_kernel k)
       : cl_wrapper<cl_kernel>(k) { }
-  virtual ~kernel_() { }
+  ~kernel_() { }
 
   template<typename T>
   kernel_& set_arg(cl_uint index, const T &value) {
@@ -714,7 +715,7 @@ public:
     CHECK_CL_ERROR(err);
     ref_ = p;
   }
-  virtual ~program_() { }
+  ~program_() { }
 
   /** \brief compile this program for all devices associated with this
    * program's context */
@@ -761,7 +762,7 @@ public:
   event_(const event_ &e) : cl_wrapper<cl_event>(e) { }
   /** \brief standard ctors; see cl_wrapper<> */
   event_(cl_event e) : cl_wrapper<cl_event>(e) { }
-  virtual ~event_() { }
+  ~event_() { }
 
   void wait() {
     cl_int err;
@@ -800,7 +801,7 @@ public:
     CHECK_CL_ERROR(err);
     ref_ = q;
   }
-  virtual ~command_queue_() { } 
+  ~command_queue_() { } 
 
   event read_buffer(const buffer &src, size_t offset, size_t size, void
       *dest, cl_uint num_events = 0, event *events = NULL, 
