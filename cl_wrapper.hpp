@@ -714,6 +714,19 @@ public:
     CHECK_CL_ERROR(err);
     ref_ = p;
   }
+  /** \brief create program from source code and build immediately.
+   * n.b. this prevents you from getting to the error log if something
+   * goes wrong. */
+  program_(const context &ctx, const std::string &source, const
+      std::string &opts) {
+    cl_int err;
+    const char *src_ptr = source.c_str();
+    cl_program p = clCreateProgramWithSource(ctx.id(),
+        1, &src_ptr, NULL, &err);
+    CHECK_CL_ERROR(err);
+    ref_ = p;
+    build(opts);
+  }
   virtual ~program_() { }
 
   /** \brief compile this program for all devices associated with this
@@ -864,6 +877,22 @@ public:
         reinterpret_cast<cl_event*>(&to_return));
     CHECK_CL_ERROR(err);
     return to_return;
+  }
+
+  event marker() {
+    cl_int err;
+    event to_return;
+    err = clEnqueueMarker(ref_,
+        reinterpret_cast<cl_event*>(&to_return));
+    CHECK_CL_ERROR(err);
+    return to_return;
+  }
+
+  void enqueue_wait_for_events(cl_uint num_events, event *events) {
+    cl_int err;
+    err = clEnqueueWaitForEvents(ref_, num_events,
+        reinterpret_cast<cl_event*>(events));
+    CHECK_CL_ERROR(err);
   }
 
   // TODO image-related stuff
