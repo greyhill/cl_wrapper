@@ -888,10 +888,16 @@ public:
     return to_return;
   }
 
-  void enqueue_wait_for_events(cl_uint num_events, event *events) {
+  void wait_for_events(cl_uint num_events, event *events) {
     cl_int err;
     err = clEnqueueWaitForEvents(ref_, num_events,
         reinterpret_cast<cl_event*>(events));
+    CHECK_CL_ERROR(err);
+  }
+
+  void barrier() {
+    cl_int err;
+    err = clEnqueueBarrier(ref_);
     CHECK_CL_ERROR(err);
   }
 
