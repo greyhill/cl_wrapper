@@ -284,7 +284,7 @@ public:
     return ref_;
   }
   /** \brief modify reference */
-  void reset(T t) {
+  void reset(T t = NULL) {
     if(ref_ == t) return;
     downref_();
     ref_ = t;
@@ -716,7 +716,7 @@ public:
   }
   /** \brief create program from source code and build immediately.
    * n.b. this prevents you from getting to the error log if something
-   * goes wrong. */
+   * goes wrong because the ctor will throw an exception */
   program_(const context &ctx, const std::string &source, const
       std::string &opts) {
     cl_int err;
