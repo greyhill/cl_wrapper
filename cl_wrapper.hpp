@@ -895,6 +895,10 @@ public:
     CHECK_CL_ERROR(err);
   }
 
+  void wait_for_event(event e) {
+    wait_for_events(1, &e);
+  }
+
   void barrier() {
     cl_int err;
     err = clEnqueueBarrier(ref_);
