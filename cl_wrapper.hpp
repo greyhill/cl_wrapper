@@ -598,6 +598,7 @@ public:
 };
 typedef buffer_<0> buffer;
 
+/** \brief OpenCL 2d image wrapper */
 template<int UNUSED>
 class image2d_ : public cl_wrapper<cl_mem> {
 public:
@@ -636,6 +637,7 @@ public:
 };
 typedef image2d_<0> image2d;
 
+/** \brief OpenCL 3d image wrapper */
 template<int UNUSED>
 class image3d_ : public cl_wrapper<cl_mem> {
 public:
@@ -671,6 +673,8 @@ public:
 };
 typedef image3d_<0> image3d;
 
+/** \brief wrapper for OpenCL kernels.  get them from program objects
+ * with .get_kernel() */
 template<int UNUSED>
 class kernel_ : public cl_wrapper<cl_kernel> {
 public:
@@ -695,6 +699,8 @@ public:
 };
 typedef kernel_<0> kernel;
 
+/** \brief wrapper for OpenCL program objects.  currently only supports
+ * programs for all devices in a context built from source */
 template<int UNUSED>
 class program_ : public cl_wrapper<cl_program> {
 public:
@@ -765,6 +771,8 @@ public:
 };
 typedef program_<0> program;
 
+/** \brief event wrapper, returned from many command_queue member
+ * functions */
 template<int UNUSED>
 class event_ : public cl_wrapper<cl_event> {
 public:
@@ -792,6 +800,7 @@ void wait(cl_uint num_events, event_<N> *events) {
   CHECK_CL_ERROR(err);
 }
 
+/** \brief command_queue wrapper */
 template<int UNUSED>
 class command_queue_ : public cl_wrapper<cl_command_queue> {
 public:
@@ -879,6 +888,9 @@ public:
     return to_return;
   }
 
+  /** \brief returns an event that will complete when all commands
+   * enqueued up to this point have completed execution.  a clFlush()
+   * could be emulated by performing queue.marker().wait(). */
   event marker() {
     cl_int err;
     event to_return;
@@ -887,7 +899,8 @@ public:
     CHECK_CL_ERROR(err);
     return to_return;
   }
-void wait_for_events(cl_uint num_events, event *events) {
+
+  void wait_for_events(cl_uint num_events, event *events) {
     cl_int err;
     err = clEnqueueWaitForEvents(ref_, num_events,
         reinterpret_cast<cl_event*>(events));
@@ -898,12 +911,16 @@ void wait_for_events(cl_uint num_events, event *events) {
     wait_for_events(1, &e);
   }
 
+  /** \brief nothing enqueued after this point will be executed by the
+   * device until everything before it has completed execution */
   void barrier() {
     cl_int err;
     err = clEnqueueBarrier(ref_);
     CHECK_CL_ERROR(err);
   }
 
+  /** \param origin: 3-element size_t array
+      \param region: 3-element size_t array */
   template<typename T>
   event read_image(const T &image, 
       const size_t *origin, const size_t *region, 
@@ -921,6 +938,8 @@ void wait_for_events(cl_uint num_events, event *events) {
     return to_return;
   }
 
+  /** \param origin: 3-element size_t array
+      \param region: 3-element size_t array */
   template<typename T>
   event write_image(const T &image,
       const size_t *origin, const size_t *region,
@@ -938,6 +957,8 @@ void wait_for_events(cl_uint num_events, event *events) {
     return to_return;
   }
 
+  /** \param origin: 3-element size_t array
+      \param region: 3-element size_t array */
   template<typename T>
   event copy_image_to_buffer(const T &src, buffer &dst, 
       size_t *origin, size_t *region, size_t offset,
@@ -954,6 +975,8 @@ void wait_for_events(cl_uint num_events, event *events) {
     return to_return;
   }
 
+  /** \param origin: 3-element size_t array
+      \param region: 3-element size_t array */
   template<typename T>
   event copy_buffer_to_image(const buffer &src, T &dst,
       size_t offset, size_t *origin, size_t *region,
