@@ -12,6 +12,28 @@ void print_usage(char *progname) {
     << std::endl;
 }
 
+void list_devices(cl::platform p) {
+  std::cout << "\t" << "devices:\n";
+  const std::vector<cl::device> &devices = p.devices();
+  for(unsigned i=0; i<devices.size(); ++i) {
+    std::cout << "\t" << i << ": " << devices[i].name() << "\n";
+    std::cout << "\t\t" << "address bits: " << devices[i].address_bits()
+      << "\n";
+    std::cout << "\t\t" << "max alloc size: " <<
+      devices[i].max_mem_alloc_size() << "\n";
+    std::cout << "\t\t" << "driver version: " <<
+      devices[i].driver_version() << "\n";
+
+    std::cout << "\t\t" << "max work size: ";
+    std::vector<size_t> max_work_size =
+      devices[i].max_work_item_sizes();
+    for(unsigned j=0; j<max_work_size.size(); ++j) {
+      std::cout << max_work_size[j] << " ";
+    }
+    std::cout << "\n";
+  }
+}
+
 void list_platforms() {
   const std::vector<cl::platform> &platforms =
     cl::platform::platforms();
@@ -23,6 +45,7 @@ void list_platforms() {
     std::cout << "\t" << "profile: " << platforms[i].profile() << "\n";
     std::cout << "\t" << "extensions: " 
       << platforms[i].extensions() << "\n";
+    list_devices(platforms[i]);
   }
 }
 

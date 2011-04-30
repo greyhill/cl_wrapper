@@ -887,8 +887,7 @@ public:
     CHECK_CL_ERROR(err);
     return to_return;
   }
-
-  void wait_for_events(cl_uint num_events, event *events) {
+void wait_for_events(cl_uint num_events, event *events) {
     cl_int err;
     err = clEnqueueWaitForEvents(ref_, num_events,
         reinterpret_cast<cl_event*>(events));
@@ -905,7 +904,71 @@ public:
     CHECK_CL_ERROR(err);
   }
 
-  // TODO image-related stuff
+  template<typename T>
+  event read_image(const T &image, 
+      const size_t *origin, const size_t *region, 
+      void *dst, 
+      int num_events = 0, event *events = NULL,
+      size_t row_pitch = 0, size_t slice_pitch = 0) {
+    cl_int err;
+    event to_return;
+    err = clEnqueueReadImage(
+        ref_, image.id(), CL_FALSE, origin, region, row_pitch,
+        slice_pitch, dst, num_events,
+        reinterpret_cast<cl_event*>(events),
+        reinterpret_cast<cl_event*>(&to_return));
+    CHECK_CL_ERROR(err);
+    return to_return;
+  }
+
+  template<typename T>
+  event write_image(const T &image,
+      const size_t *origin, const size_t *region,
+      void *src,
+      size_t row_pitch = 0, size_t slice_pitch = 0,
+      int num_events = 0, event *events = NULL) {
+    cl_int err;
+    event to_return;
+    err = clEnqueueWriteImage(
+        ref_, image.id(), CL_FALSE, origin, region, row_pitch,
+        slice_pitch, src, num_events,
+        reinterpret_cast<cl_event*>(events),
+        reinterpret_cast<cl_event*>(&to_return));
+    CHECK_CL_ERROR(err);
+    return to_return;
+  }
+
+  template<typename T>
+  event copy_image_to_buffer(const T &src, buffer &dst, 
+      size_t *origin, size_t *region, size_t offset,
+      cl_uint num_events = 0, event *events = NULL) {
+    cl_int err;
+    event to_return;
+    err = clEnqueueCopyImageToBuffer(
+        ref_, src.id(), dst.id(),
+        origin, region, offset,
+        num_events,
+        reinterpret_cast<cl_event*>(events),
+        reinterpret_cast<cl_event*>(&to_return));
+    CHECK_CL_ERROR(err);
+    return to_return;
+  }
+
+  template<typename T>
+  event copy_buffer_to_image(const buffer &src, T &dst,
+      size_t offset, size_t *origin, size_t *region,
+      cl_uint num_events = 0, event *events = NULL) {
+    cl_int err;
+    event to_return;
+    err = clEnqueueCopyBufferToImage(
+        ref_, src.id(), dst.id(),
+        offset, origin, region,
+        num_events,
+        reinterpret_cast<cl_event*>(events),
+        reinterpret_cast<cl_event*>(&to_return));
+    CHECK_CL_ERROR(err);
+    return to_return;
+  }
 };
 typedef command_queue_<0> command_queue;
 
