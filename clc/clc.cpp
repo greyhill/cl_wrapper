@@ -105,7 +105,7 @@ void build_program(const std::string &path, const std::string &opts,
         cpp_stream << line[i];
       }
     }
-    cpp_stream << "\"";
+    cpp_stream << "\\n\"";
   }
   cpp_stream << ";\n";
   infile.close();
