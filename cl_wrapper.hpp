@@ -7,6 +7,10 @@
 #include <string>
 #include <vector>
 
+#ifdef CL_WRAPPER_EXCEPTIONS_ABORT
+#include <cstdlib>
+#endif
+
 #define CHECK_CL_ERROR(err) if((err) != CL_SUCCESS) throw cl_error((err));
 
 namespace cl {
@@ -114,7 +118,11 @@ template<int UNUSED>
 class cl_error_ : public std::runtime_error {
 public:
   cl_error_(cl_int err) : std::runtime_error(cl_error_string(err)),
-      err_(err) { }
+      err_(err) { 
+    #ifdef CL_WRAPPER_EXCEPTIONS_ABORT
+    abort();
+    #endif
+  }
 
   cl_int err_code() const { return err_; }
 
