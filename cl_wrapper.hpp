@@ -280,7 +280,7 @@ public:
   cl_wrapper(T t)
       : ref_(t) {
   }
-  virtual ~cl_wrapper() {
+  ~cl_wrapper() {
     downref_();
   }
 
@@ -354,7 +354,6 @@ public:
       : id_(id) { }
   device_(const device_ &d)
       : id_(d.id_) { }
-  ~device_() { }
 
   device_& operator=(const device_ &d) { id_ = d.id_; return *this; }
   bool operator==(const device_ &d) { return id_ == d.id_; }
@@ -471,7 +470,6 @@ public:
   platform_(const platform_ &p)
       : id_(p.id_) {
   }
-  ~platform_() { }
 
   platform_& operator=(const platform_ &p) { id_ = p.id_; return *this; }
   bool operator==(const platform_ &p) { return id_ == p.id_; }
@@ -565,7 +563,6 @@ public:
     CHECK_CL_ERROR(err);
     ref_ = c;
   }
-  virtual ~context_() { }
 
 #define CONTEXT_PROPERTY(name, cl_name, type) \
   type name() const { \
@@ -603,7 +600,6 @@ public:
     CHECK_CL_ERROR(err);
     ref_ = m;
   }
-  virtual ~buffer_() { }
 };
 typedef buffer_<0> buffer;
 
@@ -642,7 +638,6 @@ public:
     CHECK_CL_ERROR(err);
     ref_ = i;
   }
-  virtual ~image2d_() { }
 };
 typedef image2d_<0> image2d;
 
@@ -678,7 +673,6 @@ public:
     CHECK_CL_ERROR(err);
     ref_ = i;
   }
-  virtual ~image3d_() { }
 };
 typedef image3d_<0> image3d;
 
@@ -696,7 +690,6 @@ public:
   /** \brief standard ctors; see cl_wrapper<> */
   kernel_(cl_kernel k)
       : cl_wrapper<cl_kernel>(k) { }
-  virtual ~kernel_() { }
 
   template<typename T>
   kernel_& set_arg(cl_uint index, const T &value) {
@@ -742,7 +735,6 @@ public:
     ref_ = p;
     build(opts);
   }
-  virtual ~program_() { }
 
   /** \brief compile this program for all devices associated with this
    * program's context */
@@ -791,7 +783,6 @@ public:
   event_(const event_ &e) : cl_wrapper<cl_event>(e) { }
   /** \brief standard ctors; see cl_wrapper<> */
   event_(cl_event e) : cl_wrapper<cl_event>(e) { }
-  virtual ~event_() { }
 
   void wait() {
     cl_int err;
@@ -831,7 +822,6 @@ public:
     CHECK_CL_ERROR(err);
     ref_ = q;
   }
-  virtual ~command_queue_() { } 
 
   event read_buffer(const buffer &src, size_t offset, size_t size, void
       *dest, cl_uint num_events = 0, event *events = NULL, 
