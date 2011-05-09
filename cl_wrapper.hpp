@@ -9,6 +9,7 @@
 
 #ifdef CL_WRAPPER_EXCEPTIONS_ABORT
 #include <cstdlib>
+#include <csignal>
 #endif
 
 #define CHECK_CL_ERROR(err) if((err) != CL_SUCCESS) throw cl_error((err));
@@ -120,7 +121,7 @@ public:
   cl_error_(cl_int err) : std::runtime_error(cl_error_string(err)),
       err_(err) { 
     #ifdef CL_WRAPPER_EXCEPTIONS_ABORT
-    abort();
+    raise(SIGINT);
     #endif
   }
 
