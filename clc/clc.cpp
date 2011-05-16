@@ -38,6 +38,10 @@ void list_devices(cl::platform p) {
       << devices[i].image3d_max_width() << "(w) x "
       << devices[i].image3d_max_height() << "(h) x "
       << devices[i].image3d_max_depth() << "(d)\n";
+    std::cout << "\t\t" << "global mem size: "
+      << devices[i].global_mem_size() << "\n";
+    std::cout << "\t\t" << "max read image args: " 
+      << devices[i].max_read_image_args() << "\n";
   }
 }
 
