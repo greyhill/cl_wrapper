@@ -31,6 +31,13 @@ void list_devices(cl::platform p) {
       std::cout << max_work_size[j] << " ";
     }
     std::cout << "\n";
+    std::cout << "\t\t" << "max 2d image size: "
+      << devices[i].image2d_max_width() << "(w) x " 
+      << devices[i].image2d_max_height() << "(h)\n";
+    std::cout << "\t\t" << "max 3d image size: "
+      << devices[i].image3d_max_width() << "(w) x "
+      << devices[i].image3d_max_height() << "(h) x "
+      << devices[i].image3d_max_depth() << "(d)\n";
   }
 }
 
