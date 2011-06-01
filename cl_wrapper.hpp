@@ -699,6 +699,13 @@ public:
     CHECK_CL_ERROR(err);
     return *this;
   }
+
+  kernel_& set_local_mem_size(cl_uint index, size_t bytes) {
+    cl_int err;
+    err = clSetKernelArg(ref_, index, bytes, NULL);
+    CHECK_CL_ERROR(err);
+    return *this;
+  }
 };
 typedef kernel_<0> kernel;
 
