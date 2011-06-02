@@ -42,6 +42,8 @@ void list_devices(cl::platform p) {
       << devices[i].global_mem_size() << "\n";
     std::cout << "\t\t" << "max read image args: " 
       << devices[i].max_read_image_args() << "\n";
+    std::cout << "\t\t" << "extensions: " << devices[i].extensions() <<
+      "\n";
   }
 }
 
